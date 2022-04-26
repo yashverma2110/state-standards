@@ -1,6 +1,7 @@
 .page-title {
   margin-bottom: 16px;
   padding: 16px;
+  border-bottom: 4px solid black;
 }
 
 .table-head {
@@ -13,4 +14,34 @@
 
 .view-container {
   margin: 16px 0;
+}
+
+.input-container {
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.input {
+  width: 40%;
+}
+
+.loading { 
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-icon {
+  animation: spin 0.4s infinite ease;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  0% {
+    transform: rotate(360deg);
+  }
 }
