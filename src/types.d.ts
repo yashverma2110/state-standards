@@ -5,3 +5,5 @@ interface Place {
 }
 
 type View = "all" | "single" | "sets" | "download";
+
+type Type = "all" | "school" | "state" | "organization";

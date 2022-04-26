@@ -7,14 +7,18 @@ import { downloadBlob } from "./utils/methods";
 
 function App() {
   const [view, setview] = useState<View>("all");
-  const [alert, setAlert] = useState<{ appear: boolean; message?: string }>({
+  const [alert, setAlert] = useState<{
+    appear: boolean;
+    message?: string;
+    action?: any;
+  }>({
     appear: false,
   });
 
   const setViewFunctionally = async (view: View, props: any) => {
     setview(view);
 
-    const { jurisdictionId, fileName } = props;
+    const { jurisdictionId, fileName, onComplete } = props;
 
     try {
       const response = await API.get(`/place/${jurisdictionId}`);
@@ -32,6 +36,8 @@ function App() {
         message: "Some error occured",
       });
     }
+
+    onComplete();
   };
 
   const getViewToRender = () => {
@@ -48,7 +54,7 @@ function App() {
   return (
     <div className="App">
       <Paper className="page-title" elevation={2}>
-        <Typography variant="h5" component="h1">
+        <Typography className="page-title-text" variant="h5" component="h1">
           Available jurisdictions
         </Typography>
       </Paper>
@@ -59,6 +65,7 @@ function App() {
         open={alert.appear}
         onClose={() => setAlert({ appear: false })}
         message={alert.message}
+        action={alert.action}
       />
     </div>
   );

@@ -1,11 +1,15 @@
 .page-title {
   margin-bottom: 16px;
   padding: 16px;
-  border-bottom: 4px solid black;
+  background: black !important;
+}
+
+.page-title-text {
+  color: white;
 }
 
 .table-head {
-  background-color: black;
+  background-color: gray;
 }
 
 .thead {
@@ -17,8 +21,19 @@
 }
 
 .input-container {
+  display: flex;
+  justify-content: space-between;
   padding: 16px;
   margin: 16px 0;
+}
+
+.button-group-container {
+  display: flex;
+  align-items: center;
+}
+
+.button-group {
+  margin-left: 16px;
 }
 
 .input {
@@ -44,4 +59,20 @@
   0% {
     transform: rotate(360deg);
   }
+}
+
+@media only screen and (max-width: 600px) {
+  .input-container  {
+    flex-direction: column;
+  }
+
+  .input{
+    width: 100%;
+  }
+
+  .button-group-container {
+    margin-top: 16px;
+    flex-direction: column;
+  }
+  
 }

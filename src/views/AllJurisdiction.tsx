@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Button,
+  ButtonGroup,
   debounce,
   Input,
   Paper,
@@ -29,6 +31,8 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [loading, setLoading] = useState(true);
+  const [processing, setprocessing] = useState(false);
+  const [typeFilter, setTypeFilter] = useState<Type>("all");
 
   useEffect(() => {
     getAllJusrisdictions();
@@ -52,14 +56,16 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
   };
 
   const copyText = (place: Place) => {
+    setprocessing(true);
     setView("all", {
       jurisdictionId: place.id,
       fileName: `${place.title}_${place.type}.csv`,
+      onComplete: () => setprocessing(false),
     });
 
     setAlert({
       appear: true,
-      message: "Please wait, downloading...",
+      message: "Please wait, processing...",
     });
   };
 
@@ -76,6 +82,20 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
     setplaces(placesToSearch);
   };
 
+  const setFilter = (filter: Type) => {
+    setTypeFilter(filter);
+    if (filter === "all") {
+      setplaces(allData);
+      return;
+    }
+
+    const placesToSearch = places.filter((place) => {
+      return place.type === filter;
+    });
+
+    setplaces(placesToSearch);
+  };
+
   return (
     <div>
       <Paper className="input-container">
@@ -86,7 +106,46 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
           onChange={debounce(handleSearch, 500)}
           endAdornment={<SearchIcon />}
         />
+
+        <div className="button-group-container">
+          <Typography variant="h6">Type:</Typography>
+          <ButtonGroup className="button-group">
+            <Button
+              variant={typeFilter === "all" ? "contained" : "outlined"}
+              onClick={() => setFilter("all")}
+            >
+              All
+            </Button>
+            <Button
+              variant={typeFilter === "state" ? "contained" : "outlined"}
+              onClick={() => setFilter("state")}
+            >
+              State
+            </Button>
+            <Button
+              variant={typeFilter === "school" ? "contained" : "outlined"}
+              onClick={() => setFilter("school")}
+            >
+              School
+            </Button>
+            <Button
+              variant={typeFilter === "organization" ? "contained" : "outlined"}
+              onClick={() => setFilter("state")}
+            >
+              Org
+            </Button>
+          </ButtonGroup>
+        </div>
       </Paper>
+
+      <Alert
+        style={{ margin: "16px 0" }}
+        severity={processing ? "warning" : "info"}
+      >
+        {processing
+          ? "It may take some time, please keep the tab open, you can navigate away"
+          : "Click on the Id to begin download"}
+      </Alert>
 
       {loading ? (
         <Paper elevation={4} className="loading">
