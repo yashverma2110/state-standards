@@ -84,8 +84,8 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
 
   const setFilter = (filter: Type) => {
     setTypeFilter(filter);
+    setplaces(allData);
     if (filter === "all") {
-      setplaces(allData);
       return;
     }
 
