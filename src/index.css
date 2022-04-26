@@ -1,0 +1,16 @@
+.page-title {
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.table-head {
+  background-color: black;
+}
+
+.thead {
+  color: white;
+}
+
+.view-container {
+  margin: 16px 0;
+}
