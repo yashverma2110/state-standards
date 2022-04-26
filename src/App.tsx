@@ -1,24 +1,37 @@
 import { useState } from "react";
-import {
-  Button,
-  ButtonGroup,
-  Paper,
-  Snackbar,
-  Typography,
-} from "@mui/material";
+import { Paper, Snackbar, Typography } from "@mui/material";
 import "./App.css";
 import AllJurisdiction from "./views/AllJurisdiction";
+import { API } from "./utils/api.config";
+import { downloadBlob } from "./utils/methods";
 
 function App() {
   const [view, setview] = useState<View>("all");
-  const [viewProps, setviewProps] = useState<any>();
   const [alert, setAlert] = useState<{ appear: boolean; message?: string }>({
     appear: false,
   });
 
-  const setViewFunctionally = (view: View, props: any) => {
+  const setViewFunctionally = async (view: View, props: any) => {
     setview(view);
-    setviewProps(props);
+
+    const { jurisdictionId, fileName } = props;
+
+    try {
+      const response = await API.get(`/place/${jurisdictionId}`);
+      downloadBlob(response.data.csv, fileName, "text/csv;charset=utf-8;");
+      setAlert({
+        appear: true,
+        message: "Download successfull",
+      });
+    } catch (error) {
+      setAlert({
+        appear: false,
+      });
+      setAlert({
+        appear: true,
+        message: "Some error occured",
+      });
+    }
   };
 
   const getViewToRender = () => {
@@ -40,26 +53,10 @@ function App() {
         </Typography>
       </Paper>
 
-      <ButtonGroup>
-        <Button
-          variant={view === "all" ? "contained" : "outlined"}
-          onClick={() => setview("all")}
-        >
-          All jurisdiction
-        </Button>
-        <Button
-          variant={view === "single" ? "contained" : "outlined"}
-          onClick={() => setview("single")}
-        >
-          Specific jurisdiction
-        </Button>
-      </ButtonGroup>
-
       <div className="view-container">{getViewToRender()}</div>
 
       <Snackbar
         open={alert.appear}
-        autoHideDuration={3000}
         onClose={() => setAlert({ appear: false })}
         message={alert.message}
       />

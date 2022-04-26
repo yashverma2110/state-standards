@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import { API } from "../utils/api.config";
-import { copyTextToClipboard } from "../utils/methods";
 
 interface AllJurisdictionProps {
   setAlert: any;
@@ -44,16 +43,15 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
     setPage(0);
   };
 
-  const copyText = (text: string) => {
-    copyTextToClipboard(text);
-
-    setView("single", {
-      jurisdictionId: text,
+  const copyText = (place: Place) => {
+    setView("all", {
+      jurisdictionId: place.id,
+      fileName: `${place.title}_${place.type}.csv`,
     });
 
     setAlert({
       appear: true,
-      message: "Copied to clipboard",
+      message: "Please wait, downloading...",
     });
   };
 
@@ -88,7 +86,7 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  <Button onClick={() => copyText(place.id)}>{place.id}</Button>
+                  <Button onClick={() => copyText(place)}>{place.id}</Button>
                 </TableCell>
                 <TableCell>{place.title}</TableCell>
                 <TableCell>{place.type}</TableCell>
