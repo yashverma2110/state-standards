@@ -76,7 +76,9 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
     }
 
     const placesToSearch = places.filter((place) => {
-      return place.title.toLowerCase().indexOf(e.target.value) > -1;
+      return (
+        place.title.toLowerCase().indexOf(e.target.value?.toLowerCase()) > -1
+      );
     });
 
     setplaces(placesToSearch);
