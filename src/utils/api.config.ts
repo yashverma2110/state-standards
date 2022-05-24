@@ -6,6 +6,6 @@ export const API = axios.create({
       ? "http://localhost:8080"
       : "https://dev-services.quizizz.com",
   headers: {
-    standards: "state",
+    standard: "state",
   },
 });
