@@ -7,5 +7,6 @@ export const API = axios.create({
       : "https://dev-services.quizizz.com",
   headers: {
     "x-standard": "state",
+    "Access-Control-Allow-Origin": "*",
   },
 });
