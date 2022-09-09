@@ -74,8 +74,11 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
       setplaces(allData);
       return;
     }
-
-    const placesToSearch = places.filter((place) => {
+    
+    const placesToSearch = allData.filter((place) => {
+      if (typeFilter !== 'all' && place.type !== typeFilter) {
+        return false;
+      }
       return (
         place.title.toLowerCase().indexOf(e.target.value?.toLowerCase()) > -1
       );
