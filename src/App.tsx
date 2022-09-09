@@ -21,7 +21,7 @@ function App() {
     const { jurisdictionId, fileName, onComplete } = props;
 
     try {
-      const response = await API.get(`/place/${jurisdictionId}?src=places`);
+      const response = await API.get(`/place/${jurisdictionId}`);
       downloadBlob(response.data.csv, fileName, "text/csv;charset=utf-8;");
       setAlert({
         appear: true,

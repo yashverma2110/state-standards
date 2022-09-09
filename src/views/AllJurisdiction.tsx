@@ -39,7 +39,7 @@ const AllJurisdiction = ({ setAlert, setView }: AllJurisdictionProps) => {
   }, []);
 
   const getAllJusrisdictions = async () => {
-    const { data }: any = await API.get("places?src=places");
+    const { data }: any = await API.get('places');
 
     setplaces(data.places);
     setAllData(data.places);
